@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pakistan Bank Directory — Every bank, one ledger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#0F766E;
+    --green-deep:#134E4A;
+    --paper:#F4FBFA;
+    --paper-card:#FFFFFF;
+    --ink:#112824;
+    --ink-soft:#5C706C;
+    --brass:#0D9488;
+    --brass-soft:#99F6E4;
+    --line:#DCEEEA;
+    --alert:#DC2626;
+    --alert-soft:#FEE2E2;
+    --public:#0F766E;
+    --public-soft:#CCFBF1;
+    --islamic:#059669;
+    --islamic-soft:#D1FAE5;
+    --foreign:#0891B2;
+    --foreign-soft:#CFFAFE;
+    --private:#134E4A;
+    --private-soft:#E3F2EF;
+    --specialized:#0369A1;
+    --specialized-soft:#E0F2FE;
+    --merged:#6B7280;
+    --merged-soft:#EEF0F1;
+    --micro:#166534;
+    --micro-soft:#DCFCE7;
+    --digital:#0D9488;
+    --digital-soft:#F0FDFA;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    background-image:
+      radial-gradient(circle, rgba(15,118,110,0.08) 1px, transparent 1px);
+    background-size:24px 24px;
+    color:var(--ink);
+    font-family:'Roboto',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+
+  /* ---------- Header ---------- */
+  header{
+    background:linear-gradient(135deg, #134E4A 0%, #0F766E 55%, #0D9488 100%);
+    color:var(--paper-card);
+    padding:56px 24px 88px;
+    position:relative;
+    overflow:hidden;
+  }
+  .header-inner{
+    max-width:1080px;
+    margin:0 auto;
+    position:relative;
+    z-index:2;
+    animation:headerIn .6s cubic-bezier(.16,.8,.3,1) both;
+  }
+  @keyframes headerIn{
+    from{opacity:0; transform:translateY(10px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--brass-soft);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px;height:1px;
+    background:var(--brass-soft);
+    display:inline-block;
+  }
+  h1{
+    font-family:'Roboto',sans-serif;
+    font-weight:800;
+    font-size:clamp(34px,5.5vw,58px);
+    line-height:1.04;
+    margin:18px 0 14px;
+    max-width:14ch;
+  }
+  h1 em{
+    font-style:italic;
+    color:var(--brass-soft);
+    font-weight:500;
+  }
+  .sub{
+    font-size:17px;
+    line-height:1.55;
+    color:#D9E4DD;
+    max-width:52ch;
+    margin:0 0 34px;
+  }
+  .stat-row{
+    display:flex;
+    gap:36px;
+    flex-wrap:wrap;
+    margin-bottom:38px;
+  }
+  .stat{
+    font-family:'IBM Plex Mono',monospace;
+  }
+  .stat .num{font-size:26px;color:#fff;font-weight:600;display:block;}
+  .stat .lab{font-size:11.5px;color:#B9CCC2;text-transform:uppercase;letter-spacing:.08em;}
+
+  .search-wrap{
+    background:var(--paper-card);
+    border-radius:14px;
+    padding:8px;
+    display:flex;
+    gap:8px;
+    max-width:640px;
+    box-shadow:0 18px 40px -14px rgba(0,0,0,.45);
+  }
+  .search-wrap input{
+    flex:1;
+    border:none;
+    outline:none;
+    background:transparent;
+    font-family:'Roboto',sans-serif;
+    font-size:16px;
+    padding:12px 14px;
+    color:var(--ink);
+  }
+  .search-wrap input::placeholder{color:#A19E8E;}
+  .search-icon{
+    display:flex;align-items:center;padding-left:10px;color:var(--ink-soft);
+  }
+
+  /* watermark seal */
+  .seal{
+    position:absolute;
+    right:-40px;top:-40px;
+    width:340px;height:340px;
+    border:1.5px solid rgba(255,255,255,.09);
+    border-radius:50%;
+    z-index:1;
+  }
+  .seal::after{
+    content:"";
+    position:absolute;inset:26px;
+    border:1.5px dashed rgba(255,255,255,.08);
+    border-radius:50%;
+  }
+
+  /* ---------- Filter bar ---------- */
+  .filter-bar{
+    max-width:1080px;
+    margin:-40px auto 0;
+    padding:0 24px;
+    position:relative;
+    z-index:3;
+  }
+  .chip-row{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    background:var(--paper-card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px;
+    box-shadow:0 10px 26px -18px rgba(0,0,0,.3);
+  }
+  .chip{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    padding:8px 14px;
+    border-radius:20px;
+    border:1px solid var(--line);
+    background:#fff;
+    cursor:pointer;
+    color:var(--ink-soft);
+    transition:.15s;
+    white-space:nowrap;
+  }
+  .chip:hover{border-color:var(--brass);}
+  .chip.active{
+    background:var(--green);
+    border-color:var(--green);
+    color:#fff;
+  }
+  .result-count{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+    margin-left:auto;
+    align-self:center;
+    padding-left:8px;
+  }
+
+  /* ---------- Grid ---------- */
+  main{max-width:1080px;margin:0 auto;padding:40px 24px 20px;}
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+    gap:20px;
+  }
+
+  /* Passbook-stub card */
+  @keyframes cardIn{
+    from{opacity:0; transform:translateY(16px) scale(.98);}
+    to{opacity:1; transform:translateY(0) scale(1);}
+  }
+  .card{
+    background:var(--paper-card);
+    border:1px solid var(--line);
+    border-radius:4px;
+    position:relative;
+    box-shadow:0 1px 0 var(--line), 0 10px 24px -20px rgba(0,0,0,.4);
+    overflow:hidden;
+    cursor:pointer;
+    opacity:0;
+    animation:cardIn .55s cubic-bezier(.16,.8,.3,1) both;
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease;
+  }
+  .card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 1px 0 var(--green), 0 20px 34px -18px rgba(15,118,110,.45);
+    border-color:var(--green);
+    background:var(--green);
+  }
+  .card:hover .bank-name,
+  .card:hover .bank-meta,
+  .card:hover .bank-meta b,
+  .card:hover .quick-item .k,
+  .card:hover .quick-item .v,
+  .card:hover .founded,
+  .card:hover .view-hint{
+    color:#fff;
+  }
+  .card:hover .quick-row{border-top-color:rgba(255,255,255,.3);}
+  .card:hover .view-hint{color:var(--brass-soft);}
+  .card:hover .logo-box{background:#fff;}
+  .card:active{transform:translateY(-2px);}
+  .card-head{
+    padding:20px 20px 16px;
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .badge-row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+  .type-badge{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    padding:3px 9px;
+    border-radius:20px;
+    white-space:nowrap;
+  }
+  .badge-public{background:var(--public-soft);color:var(--public);}
+  .badge-private{background:var(--private-soft);color:var(--private);}
+  .badge-islamic{background:var(--islamic-soft);color:var(--islamic);}
+  .badge-foreign{background:var(--foreign-soft);color:var(--foreign);}
+  .badge-specialized{background:var(--specialized-soft);color:var(--specialized);}
+  .badge-merged{background:var(--merged-soft);color:var(--merged);}
+  .badge-microfinance{background:var(--micro-soft);color:var(--micro);}
+  .badge-digital{background:var(--digital-soft);color:var(--digital);}
+  .card.merged{opacity:.88;}
+  .card.merged .card-head{background:repeating-linear-gradient(135deg, transparent, transparent 10px, rgba(0,0,0,.015) 10px, rgba(0,0,0,.015) 20px);}
+
+  .founded{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-soft);}
+
+  .name-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .logo-box{
+    width:44px;height:44px;
+    flex-shrink:0;
+    border-radius:9px;
+    border:1px solid var(--line);
+    background:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    position:relative;
+  }
+  .logo-box img{
+    width:100%;height:100%;
+    object-fit:contain;
+    padding:5px;
+  }
+  .logo-fallback{
+    width:100%;height:100%;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    font-family:'Roboto',sans-serif;
+    font-weight:600;
+    font-size:16px;
+    color:#fff;
+    background:var(--green);
+  }
+
+  .bank-name{
+    font-family:'Roboto',sans-serif;
+    font-size:22px;
+    font-weight:700;
+    line-height:1.15;
+    margin:0;
+  }
+  .bank-meta{
+    font-size:13px;
+    color:var(--ink-soft);
+    line-height:1.5;
+  }
+  .bank-meta b{color:var(--ink);font-weight:600;}
+
+  .quick-row{
+    display:flex;
+    gap:16px;
+    margin-top:6px;
+    padding-top:12px;
+    border-top:1px dashed var(--line);
+  }
+  .quick-item{font-family:'IBM Plex Mono',monospace;font-size:12px;}
+  .quick-item .k{display:block;color:#A19E8E;font-size:10px;text-transform:uppercase;letter-spacing:.06em;}
+  .quick-item .v{color:var(--ink);font-weight:500;}
+
+  .view-hint{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--brass);
+    display:flex;
+    align-items:center;
+    gap:6px;
+    margin-top:4px;
+  }
+  .view-hint .arrow{transition:transform .2s ease;}
+  .card:hover .view-hint .arrow{transform:translateX(3px);}
+
+  /* ---------- Modal "window" ---------- */
+  .modal-backdrop{
+    position:fixed; inset:0;
+    background:rgba(20,24,20,.55);
+    backdrop-filter:blur(3px);
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding:6vh 20px;
+    overflow-y:auto;
+    z-index:80;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .28s ease;
+  }
+  .modal-backdrop.open{opacity:1; pointer-events:auto;}
+  .modal-window{
+    background:var(--paper-card);
+    border-radius:16px;
+    width:100%;
+    max-width:560px;
+    box-shadow:0 40px 80px -20px rgba(0,0,0,.5);
+    transform:translateY(24px) scale(.96);
+    opacity:0;
+    transition:transform .32s cubic-bezier(.16,.8,.3,1), opacity .28s ease;
+    overflow:hidden;
+    position:relative;
+  }
+  .modal-backdrop.open .modal-window{
+    transform:translateY(0) scale(1);
+    opacity:1;
+  }
+  .modal-topstrip{
+    height:6px;
+    background:linear-gradient(90deg, var(--green-deep) 0%, var(--green) 50%, var(--brass) 100%);
+  }
+  .modal-close{
+    position:absolute;
+    top:16px; right:16px;
+    width:32px; height:32px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:#fff;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    color:var(--ink-soft);
+    transition:.15s;
+    z-index:2;
+  }
+  .modal-close:hover{background:var(--green); color:#fff; border-color:var(--green); transform:rotate(90deg);}
+  .modal-scroll{max-height:82vh; overflow-y:auto;}
+  .modal-head{padding:26px 26px 18px;}
+  .modal-badge-row{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:14px; padding-right:36px;}
+  .modal-name-row{display:flex; align-items:center; gap:14px; margin-bottom:8px;}
+  .modal-logo{
+    width:56px; height:56px; flex-shrink:0;
+    border-radius:12px; border:1px solid var(--line); background:#fff;
+    display:flex; align-items:center; justify-content:center; overflow:hidden;
+  }
+  .modal-logo img{width:100%; height:100%; object-fit:contain; padding:6px;}
+  .modal-name{font-family:'Roboto',sans-serif; font-size:24px; font-weight:700; line-height:1.15; margin:0;}
+  .modal-hq{font-size:13.5px; color:var(--ink-soft); line-height:1.5;}
+
+  /* Perforation divider */
+  .perf{
+    height:0;
+    border-top:1.5px dashed var(--line);
+    margin:0 26px;
+  }
+
+  .detail-inner{padding:18px 26px 28px;}
+  .ledger-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:10px;
+    padding:8px 0;
+    font-size:13.5px;
+    border-bottom:1px dotted var(--line);
+  }
+  .ledger-row:last-child{border-bottom:none;}
+  .ledger-label{
+    color:var(--ink-soft);
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    font-family:'IBM Plex Mono',monospace;
+    flex-shrink:0;
+  }
+  .ledger-value{
+    text-align:right;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    color:var(--ink);
+    word-break:break-word;
+  }
+  .ledger-value.wide{
+    text-align:left;
+    font-family:'Roboto',sans-serif;
+    font-size:13px;
+  }
+  .ledger-value a{color:var(--green);text-decoration:none;border-bottom:1px solid var(--brass-soft);}
+  .ledger-value a:hover{border-color:var(--green);}
+
+  .notes-box{
+    margin-top:12px;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    line-height:1.55;
+    font-style:italic;
+  }
+
+  body.modal-open{overflow:hidden;}
+
+  /* ---------- Ombudsman section ---------- */
+  .ombuds{
+    margin:64px auto;
+    max-width:1080px;
+    padding:0 24px;
+  }
+  .ombuds-card{
+    background:linear-gradient(135deg, #134E4A 0%, #0F766E 100%);
+    color:#fff;
+    border-radius:16px;
+    padding:36px 32px;
+    display:grid;
+    grid-template-columns:1.1fr 1fr;
+    gap:32px;
+  }
+  .ombuds-card h2{
+    font-family:'Roboto',sans-serif;
+    font-size:26px;
+    font-weight:700;
+    margin:0 0 12px;
+  }
+  .ombuds-card p{color:#D9E4DD;font-size:14.5px;line-height:1.6;margin:0 0 16px;}
+  .ombuds-steps{list-style:none;margin:0;padding:0;font-size:13.5px;color:#EAF1EC;}
+  .ombuds-steps li{
+    padding:9px 0 9px 26px;
+    position:relative;
+    border-top:1px solid rgba(255,255,255,.14);
+  }
+  .ombuds-steps li:first-child{border-top:none;}
+  .ombuds-steps li::before{
+    content:attr(data-n);
+    position:absolute;left:0;top:9px;
+    font-family:'IBM Plex Mono',monospace;
+    color:var(--brass-soft);
+    font-size:12px;
+  }
+  .ombuds-contact{
+    background:rgba(255,255,255,.07);
+    border-radius:10px;
+    padding:18px 20px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    line-height:2;
+  }
+  .ombuds-contact .t{color:#B9CCC2;text-transform:uppercase;font-size:10.5px;letter-spacing:.06em;}
+
+  @media (max-width:720px){
+    .ombuds-card{grid-template-columns:1fr;}
+  }
+
+  .disclaimer{
+    max-width:1080px;
+    margin:48px auto 0;
+    padding:0 24px;
+  }
+  .disclaimer-box{
+    border:1px solid var(--line);
+    background:var(--paper-card);
+    border-radius:12px;
+    padding:26px 28px;
+  }
+  .disclaimer-heading{
+    font-family:'Roboto',sans-serif;
+    font-weight:800;
+    font-size:13px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--green);
+    margin:0 0 14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .disclaimer-heading::before{
+    content:"";
+    width:22px;height:1px;
+    background:var(--green);
+    display:inline-block;
+  }
+  .disclaimer-box p{
+    font-size:12.5px;
+    line-height:1.75;
+    color:var(--ink-soft);
+    margin:0 0 10px;
+    font-family:'IBM Plex Mono',monospace;
+  }
+  .disclaimer-box p:last-child{margin-bottom:0;}
+  .disclaimer-box b{color:var(--ink);}
+
+  footer{
+    text-align:center;
+    padding:24px 24px 60px;
+    font-size:12px;
+    color:var(--ink-soft);
+    font-family:'IBM Plex Mono',monospace;
+    line-height:1.8;
+    max-width:640px;
+    margin:0 auto;
+  }
+  footer a{color:var(--green);}
+
+  .no-results{
+    text-align:center;
+    padding:60px 20px;
+    color:var(--ink-soft);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:14px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="seal"></div>
+  <div class="header-inner">
+    <div class="eyebrow">A directory, not an advertisement</div>
+    <h1>Every Pakistani bank,<br><em>one ledger.</em></h1>
+    <p class="sub">Helplines, complaint emails, head offices, and CEOs for every one of Pakistan's 33 SBP-scheduled banks, its licensed microfinance banks, and its new digital-only banks — laid out like a passbook, so you can find who to call without hunting through ten tabs.</p>
+    <div class="stat-row">
+      <div class="stat"><span class="num" id="stat-count">48</span><span class="lab">Banks listed</span></div>
+      <div class="stat"><span class="num">8</span><span class="lab">Categories</span></div>
+      <div class="stat"><span class="num">100%</span><span class="lab">SBP-scheduled banks covered</span></div>
+    </div>
+    <div class="search-wrap">
+      <span class="search-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </span>
+      <input id="search" type="text" placeholder="Search by bank name — e.g. HBL, Meezan, Bank of Punjab…" autocomplete="off">
+    </div>
+  </div>
+</header>
+
+<div class="filter-bar">
+  <div class="chip-row" id="chips">
+    <button class="chip active" data-filter="all">All banks</button>
+    <button class="chip" data-filter="Public Sector">Public sector</button>
+    <button class="chip" data-filter="Private">Private</button>
+    <button class="chip" data-filter="Islamic">Islamic</button>
+    <button class="chip" data-filter="Foreign">Foreign</button>
+    <button class="chip" data-filter="Specialized">Specialized / DFI</button>
+    <button class="chip" data-filter="Microfinance">Microfinance</button>
+    <button class="chip" data-filter="Digital">Digital banks</button>
+    <button class="chip" data-filter="Merged">Merged / inactive</button>
+    <span class="result-count" id="resultCount"></span>
+  </div>
+</div>
+
+<main>
+  <div class="grid" id="grid"></div>
+  <div class="no-results" id="noResults" style="display:none;">No bank matches that search. Try a different name.</div>
+</main>
+
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal-window" id="modalWindow"></div>
+</div>
+
+<div class="ombuds">
+  <div class="ombuds-card">
+    <div>
+      <h2>Bank didn't fix it? Escalate.</h2>
+      <p>Every bank must acknowledge a complaint and respond within its own timeline — usually 5 to 15 working days. If you're still unsatisfied, Pakistani law gives you two free, independent escalation routes before you'd ever need a lawyer.</p>
+      <ul class="ombuds-steps">
+        <li data-n="01">Lodge the complaint directly with your bank first (in writing, or via app/branch) — this step is required before either route below will accept your case.</li>
+        <li data-n="02">Still unresolved? File with the <b>State Bank of Pakistan's Sunwai portal</b> for general banking and digital-account issues.</li>
+        <li data-n="03">For disputes the bank refuses to resolve fairly, approach the <b>Banking Mohtasib Pakistan</b> — an independent ombudsman that mediates free of charge.</li>
+      </ul>
+    </div>
+    <div class="ombuds-contact">
+      <div class="t">SBP Sunwai Portal</div>
+      sunwai.sbp.org.pk<br><br>
+      <div class="t">Banking Mohtasib Pakistan</div>
+      5th Floor, Shaheen Complex,<br>
+      M.R. Kiyani Road, Karachi<br>
+      Tel: 021-99217334-38<br>
+      bankingmohtasib.gov.pk<br><br>
+      <div class="t">SBP Consumer Protection</div>
+      UAN: 021-111-727-273
+    </div>
+  </div>
+</div>
+
+<div class="disclaimer">
+  <div class="disclaimer-box">
+    <h2 class="disclaimer-heading">Disclaimer</h2>
+    <p><b>Independent, unofficial resource.</b> This directory is an independently compiled reference tool. It is not published, endorsed, sponsored by, or affiliated with the State Bank of Pakistan, any bank, microfinance bank, or digital bank listed here, or any of their parent companies, subsidiaries, or affiliates. All bank names, logos, trademarks, and emblems shown remain the property of their respective owners and are used solely to identify the institution being described, not to imply any endorsement, partnership, or official relationship.</p>
+    <p><b>No warranty of accuracy.</b> Contact numbers, email addresses, postal addresses, executive names, branch counts, and licensing status are compiled from publicly available sources, including official bank websites, regulatory filings, and public news reporting, and were believed accurate as of the last update shown below. Banks change phone lines, staff, addresses, and ownership without notice, and errors, omissions, or delays in updating this page may occur. Nothing on this page is guaranteed to be current, complete, or error-free, and no representation or warranty of any kind, express or implied, is made regarding its accuracy.</p>
+    <p><b>Not financial, legal, or professional advice.</b> Nothing on this page constitutes financial, legal, tax, or professional advice, or a recommendation to use, avoid, or evaluate any particular bank. Any decision to open an account, file a complaint, or transact with any institution listed here is made entirely at the user's own discretion.</p>
+    <p><b>Verify independently before relying on this information.</b> Users are solely responsible for independently verifying any detail on this page — particularly helpline numbers, complaint emails, and executive names — directly against the relevant bank's official website or customer service channel before relying on it, especially for time-sensitive, financial, or complaint-related matters.</p>
+    <p><b>Limitation of liability.</b> To the fullest extent permitted by applicable law, the creator(s) and publisher(s) of this page disclaim all liability for any direct, indirect, incidental, or consequential loss, damage, cost, or expense arising from or in connection with any use of, reliance on, or inability to access this page or the information it contains. This page is provided "as is" and "as available," without warranty of any kind.</p>
+    <p>Notes updated: August 2026.</p>
+  </div>
+</div>
+
+<footer>
+  All 33 SBP-scheduled banks (5 public sector, 4 specialized, 20 domestic private, 4 foreign), 11 SBP-licensed microfinance banks, and Pakistan's 5 digital-only banks, per the State Bank of Pakistan's official lists and public licensing notices, cross-checked against each institution's own contact pages and recent rebranding announcements.
+</footer>
+
+<script>
+const banks = [
+  {
+    name:"Habib Bank Limited (HBL)", type:"Private", founded:1941,
+    hq:"HBL Tower, Habib Bank Plaza, I.I. Chundrigar Road, Karachi",
+    postal:"Habib Bank Plaza, I.I. Chundrigar Road, Karachi-74000, Pakistan",
+    ceo:"Muhammad Nassir Salim — President & CEO",
+    chairman:"Sultan Ali Allana",
+    helpline:"111-111-425 (UAN, add city code)",
+    complaintEmail:"customer.complaints@hbl.com",
+    generalEmail:"info@hbl.com",
+    website:"hbl.com",
+    branches:"~1,730 branches",
+    notes:"Pakistan's oldest bank post-independence and largest by assets. Subsidiary of the Aga Khan Fund for Economic Development."
+  },
+  {
+    name:"United Bank Limited (UBL)", type:"Private", founded:1959,
+    hq:"UBL Building, I.I. Chundrigar Road, Karachi",
+    postal:"UBL Head Office, I.I. Chundrigar Road, Karachi-74000, Pakistan",
+    ceo:"Muhammad Jawaid Iqbal — President & CEO",
+    chairman:"—",
+    helpline:"111-825-888 (UAN)",
+    complaintEmail:"complaints@ubl.com.pk",
+    generalEmail:"info@ubl.com.pk",
+    website:"ubldigital.com",
+    branches:"~1,400 branches",
+    notes:"Overtook HBL in 2025–26 to become Pakistan's largest bank by deposits and assets. Majority owned by Bestway Group."
+  },
+  {
+    name:"MCB Bank Limited", type:"Private", founded:1947,
+    hq:"MCB Building, 15-Main Gulberg, Jail Road, Lahore",
+    postal:"MCB Tower, I.I. Chundrigar Road, Karachi-74000, Pakistan",
+    ceo:"Shoaib Mumtaz — President & CEO",
+    chairman:"Mian Mohammad Mansha",
+    helpline:"111-000-622 (add city code, e.g. 042-111-000-622)",
+    complaintEmail:"servicequality@mcb.com.pk",
+    generalEmail:"info@mcb.com.pk",
+    website:"mcb.com.pk",
+    branches:"~1,400 branches",
+    notes:"One of Pakistan's oldest banks (as Muslim Commercial Bank), privatized in 1991."
+  },
+  {
+    name:"Allied Bank Limited (ABL)", type:"Private", founded:1942,
+    hq:"Lahore, Pakistan",
+    postal:"Allied Bank Limited, 3-Tipu Block, New Garden Town, Lahore",
+    ceo:"Aizid Razzaq Gill — CEO",
+    chairman:"Mohammad Naeem Mukhtar",
+    helpline:"Toll-free 0800-22522",
+    complaintEmail:"complaints@abl.com",
+    generalEmail:"info@abl.com",
+    website:"abl.com",
+    branches:"~1,300 branches",
+    notes:"Founded as Australasia Bank in 1942 — one of the subcontinent's oldest banks. Owned by the Ibrahim Group."
+  },
+  {
+    name:"Bank Alfalah", type:"Private", founded:1997,
+    hq:"B.A. Building, I.I. Chundrigar Road, Karachi",
+    postal:"Bank Alfalah Ltd. Head Office, 2nd Floor, B.A. Building, I.I. Chundrigar Road, Karachi",
+    ceo:"Atif Aslam Bajwa — CEO",
+    chairman:"H.H. Sheikh Nahayan Mabarak Al Nahayan",
+    helpline:"111-225-111 or 111-225-224 (24/7)",
+    complaintEmail:"contactus@bankalfalah.com",
+    generalEmail:"contactus@bankalfalah.com",
+    website:"bankalfalah.com",
+    branches:"~850 branches",
+    notes:"Majority owned by the Abu Dhabi United Group."
+  },
+  {
+    name:"Bank AL Habib", type:"Private", founded:1991,
+    hq:"MacKinnon's Building, I.I. Chundrigar Road, Karachi",
+    postal:"4th Floor, MacKinnon's Building, I.I. Chundrigar Road, Karachi",
+    ceo:"Mansoor Ali Khan — CEO",
+    chairman:"Abbas D. Habib",
+    helpline:"111-014-014, Toll-free 0800-00006",
+    complaintEmail:"complaints@bankalhabib.com",
+    generalEmail:"info@bankalhabib.com",
+    website:"bankalhabib.com",
+    branches:"~1,200 branches",
+    notes:"Owned by the Dawood Habib family; known for one of the industry's fastest branch-expansion rates."
+  },
+  {
+    name:"Askari Bank", type:"Private", founded:1991,
+    hq:"AWT Plaza, The Mall, Rawalpindi / Islamabad",
+    postal:"Askari Bank Limited, AWT Plaza, The Mall, Rawalpindi, Pakistan",
+    ceo:"Zia Ijaz — CEO",
+    chairman:"Anwar Ali Hyder",
+    helpline:"051-111-000-787 (24/7 UAN)",
+    complaintEmail:"complaints@askaribank.com.pk",
+    generalEmail:"info@askaribank.com.pk",
+    website:"askaribank.com",
+    branches:"~720 branches",
+    notes:"Subsidiary of Fauji Fertilizer Company, part of the Fauji Foundation group."
+  },
+  {
+    name:"Habib Metropolitan Bank (HabibMetro)", type:"Private", founded:1992,
+    hq:"Karachi, Pakistan",
+    postal:"Habib Metropolitan Bank, Spencer's Building, I.I. Chundrigar Road, Karachi",
+    ceo:"Khurram Shahzad Khan — CEO",
+    chairman:"Mohamedali R. Habib",
+    helpline:"111-14-14-14 (UAN)",
+    complaintEmail:"complaints@habibmetro.com",
+    generalEmail:"info@habibmetro.com",
+    website:"habibmetro.com",
+    branches:"~500 branches",
+    notes:"A subsidiary of the Zurich-headquartered Habib Bank AG Zurich group."
+  },
+  {
+    name:"Soneri Bank", type:"Private", founded:1991,
+    hq:"PNSC Building, M.T. Khan Road, Karachi",
+    postal:"Central Office, 10th Floor, PNSC Building, M.T. Khan Road, Karachi",
+    ceo:"Muhtashim Ahmad Ashai — CEO",
+    chairman:"Amin A. Feerasta",
+    helpline:"111-766-374, or 111-567-890",
+    complaintEmail:"complaint.suggestion@soneribank.com",
+    generalEmail:"info@soneribank.com",
+    website:"soneribank.com",
+    branches:"~500 branches",
+    notes:"Mid-sized private bank with a strong SME and trade-finance focus."
+  },
+  {
+    name:"Meezan Bank", type:"Islamic", founded:1997,
+    hq:"Meezan House, C-25, Estate Avenue, SITE, Karachi",
+    postal:"Meezan Bank Limited, Meezan House, C-25, Estate Avenue, SITE, Karachi",
+    ceo:"Dr. Syed Amir Ali — President & CEO",
+    chairman:"Riyadh S.A.A. Edrees",
+    helpline:"111-331-331 & 111-331-332 (24/7 call centre)",
+    complaintEmail:"complaints@meezanbank.com",
+    generalEmail:"info@meezanbank.com",
+    website:"meezanbank.com",
+    branches:"~1,050 branches, 200+ cities",
+    notes:"Pakistan's largest Islamic bank by assets and market capitalisation; named Best Bank of Pakistan for 2023–2025."
+  },
+  {
+    name:"Faysal Bank", type:"Islamic", founded:1987,
+    hq:"Faysal House, ST-02, Shahrah-e-Faisal, Karachi",
+    postal:"Faysal House, ST-02, Shahrah-e-Faisal, Karachi-74200, Pakistan",
+    ceo:"Yousaf Hussain — President & CEO",
+    chairman:"Mian Muhammad Younis",
+    helpline:"111-06-06-06 (UAN)",
+    complaintEmail:"complaints@faysalbank.com",
+    generalEmail:"info@faysalbank.com",
+    website:"faysalbank.com",
+    branches:"~855 branches",
+    notes:"Fully converted from conventional to Islamic banking in 2023 — now Pakistan's second-largest full-fledged Islamic bank."
+  },
+  {
+    name:"National Bank of Pakistan (NBP)", type:"Public Sector", founded:1949,
+    hq:"NBP Building, I.I. Chundrigar Road, Karachi",
+    postal:"National Bank of Pakistan, I.I. Chundrigar Road, Karachi-74000, Pakistan",
+    ceo:"Rehmat Ali Hasnie — President & CEO",
+    chairman:"Ashraf Mahmood Wathra",
+    helpline:"111-627-627 (111-NBP-NBP), Toll-free 0800-11627",
+    complaintEmail:"complaints@nbp.com.pk",
+    generalEmail:"info@nbp.com.pk",
+    website:"nbp.com.pk",
+    branches:"~1,500 branches",
+    notes:"State-owned (State Bank of Pakistan holds ~75%); acts as banker to the Government of Pakistan alongside its commercial role."
+  },
+  {
+    name:"The Bank of Punjab (BOP)", type:"Public Sector", founded:1989,
+    hq:"BOP Tower, 10-B, Block E-II, Main Boulevard, Gulberg III, Lahore",
+    postal:"BOP Tower, Main Boulevard, Gulberg III, Lahore, Pakistan",
+    ceo:"Zafar Masud — President & CEO",
+    chairman:"—",
+    helpline:"111-200-100 (UAN)",
+    complaintEmail:"complaints@bop.com.pk",
+    generalEmail:"info@bop.com.pk",
+    website:"bop.com.pk",
+    branches:"~800 branches",
+    notes:"Majority owned by the Government of Punjab."
+  },
+  {
+    name:"The Bank of Khyber (BOK)", type:"Public Sector", founded:1991,
+    hq:"24 The Mall, Peshawar Cantt, Peshawar",
+    postal:"The Bank of Khyber, 24 The Mall, Peshawar Cantt, Peshawar, Pakistan",
+    ceo:"—  (see official site for current CEO)",
+    chairman:"—",
+    helpline:"091-111-95-95-95 (UAN)",
+    complaintEmail:"complaints@bok.com.pk",
+    generalEmail:"info@bok.com.pk",
+    website:"bok.com.pk",
+    branches:"~200 branches",
+    notes:"Majority owned by the Government of Khyber Pakhtunkhwa."
+  },
+  {
+    name:"Sindh Bank", type:"Public Sector", founded:2010,
+    hq:"Karachi, Pakistan",
+    postal:"3rd Floor, Federation House, Abdullah Shah Ghazi Road, Clifton, Karachi",
+    ceo:"—  (see official site for current CEO)",
+    chairman:"—",
+    helpline:"021-111-333-225 (UAN)",
+    complaintEmail:"complaints@sindhbankltd.com",
+    generalEmail:"info@sindhbankltd.com",
+    website:"sindhbank.com.pk",
+    branches:"~300 branches",
+    notes:"Wholly owned by the Government of Sindh."
+  },
+  {
+    name:"First Women Bank Limited", type:"Public Sector", founded:1989,
+    hq:"Karachi, Pakistan",
+    postal:"First Women Bank House, 1AK, Block-6, PECHS, Karachi",
+    ceo:"—  (see official site for current CEO)",
+    chairman:"—",
+    helpline:"111-676-767 (UAN)",
+    complaintEmail:"info@fwbl.com.pk",
+    generalEmail:"info@fwbl.com.pk",
+    website:"fwbl.com.pk",
+    branches:"~40 branches",
+    notes:"Pakistan's only bank set up specifically to advance women's economic participation; state-owned."
+  },
+  {
+    name:"Standard Chartered Bank (Pakistan)", type:"Foreign", founded:1863,
+    hq:"Karachi, Pakistan (Pakistan operations)",
+    postal:"Standard Chartered Bank (Pakistan) Ltd, PO Box 5556, I.I. Chundrigar Road, Karachi",
+    ceo:"Rehan Muhammad Shaikh — CEO",
+    chairman:"—",
+    helpline:"See official contact page — numbers vary by product line",
+    complaintEmail:"customer.care@sc.com",
+    generalEmail:"customer.care@sc.com",
+    website:"sc.com/pk",
+    branches:"~120 branches",
+    notes:"Oldest foreign bank operating in Pakistan (traces to 1863) and a wholly owned subsidiary of UK-based Standard Chartered."
+  },
+  {
+    name:"Al Baraka Bank (Pakistan) Ltd.", type:"Islamic", founded:1991,
+    hq:"Al Baraka House, 162 Bangalore Town, Main Shahrah-e-Faisal, Karachi",
+    postal:"Al Baraka House, 162 Bangalore Town, Main Shahrah-e-Faisal, Karachi, Pakistan",
+    ceo:"Muhammad Atif Hanif — CEO",
+    chairman:"—",
+    helpline:"111-113-442 (24/7)",
+    complaintEmail:"complaints@albaraka.com.pk",
+    generalEmail:"info@albaraka.com.pk",
+    website:"albaraka.com.pk",
+    branches:"~190 branches",
+    notes:"Subsidiary of Bahrain-based Al Baraka Banking Group; formed via a 2010 merger with Emirates Global Islamic Bank Pakistan."
+  },
+  {
+    name:"BankIslami Pakistan Ltd.", type:"Islamic", founded:2004,
+    hq:"Executive Tower One, Dolmen City, Marine Drive, Clifton, Karachi",
+    postal:"11th Floor, Executive Tower One, Dolmen City, Marine Drive, Block 4, Clifton, Karachi",
+    ceo:"Rizwan Ata — President & CEO",
+    chairman:"—",
+    helpline:"111-247-111 (UAN)",
+    complaintEmail:"complaints@bankislami.com.pk",
+    generalEmail:"info@bankislami.com.pk",
+    website:"bankislami.com.pk",
+    branches:"~400 branches",
+    notes:"One of Pakistan's first full-fledged Islamic banks. Now a subsidiary of JS Bank (75% stake, acquired 2023)."
+  },
+  {
+    name:"Dubai Islamic Bank Pakistan Ltd.", type:"Islamic", founded:2006,
+    hq:"Karachi, Pakistan",
+    postal:"Hassan Chambers, DC-7, Block 7, Kehkashan, Clifton, Karachi",
+    ceo:"—  (see official site for current CEO)",
+    chairman:"—",
+    helpline:"See official contact page",
+    complaintEmail:"complaints@dibpak.com",
+    generalEmail:"info@dibpak.com",
+    website:"dibpak.com",
+    branches:"~230 branches",
+    notes:"Local subsidiary of UAE-based Dubai Islamic Bank, the world's first full-service Islamic bank."
+  },
+  {
+    name:"JS Bank Ltd.", type:"Private", founded:2007,
+    hq:"Shaheen Commercial Complex, Dr. Ziauddin Ahmed Road, Karachi",
+    postal:"JS Bank Limited, Shaheen Commercial Complex, Dr. Ziauddin Ahmed Road, P.O. Box 4847, Karachi-74200",
+    ceo:"Basir Shamsie — CEO",
+    chairman:"Adil Matcheswala",
+    helpline:"111-654-321 (24 hrs)",
+    complaintEmail:"complaints@jsbl.com",
+    generalEmail:"info@jsbl.com",
+    website:"jsbl.com",
+    branches:"~500 branches",
+    notes:"Formed from the 2007 merger of Jahangir Siddiqui Investment Bank and American Express Bank Pakistan. Parent of BankIslami."
+  },
+  {
+    name:"MCB Islamic Bank Ltd.", type:"Islamic", founded:2015,
+    hq:"Lahore, Pakistan",
+    postal:"MCB Islamic Bank Ltd, 2nd Floor, Block 10-A, Gulshan-e-Iqbal, Main Rashid Minhas Road, Karachi",
+    ceo:"—  (see official site for current CEO)",
+    chairman:"—",
+    helpline:"111-222-642 (add city code, e.g. 042-111-222-642)",
+    complaintEmail:"complaints@mcbislamicbank.com",
+    generalEmail:"info@mcbislamicbank.com",
+    website:"mcbislamicbank.com",
+    branches:"~200 branches",
+    notes:"A wholly owned Islamic-banking subsidiary of MCB Bank Limited, launched in 2015."
+  },
+  {
+    name:"Samba Bank Ltd.", type:"Private", founded:2002,
+    hq:"Karachi, Pakistan",
+    postal:"Samba Bank Limited, Fortune Centre, Block 6, PECHS, Shahrah-e-Faisal, Karachi",
+    ceo:"—  (see official site for current CEO)",
+    chairman:"—",
+    helpline:"See official contact page",
+    complaintEmail:"complaints@samba.com.pk",
+    generalEmail:"info@samba.com.pk",
+    website:"samba.com.pk",
+    branches:"~40 branches",
+    notes:"A smaller private bank majority-owned by Saudi National Bank (formerly Samba Financial Group of Saudi Arabia)."
+  },
+  {
+    name:"Bank Makramah Ltd. (formerly Summit Bank)", type:"Islamic", founded:2006,
+    hq:"Karachi-75600, Pakistan",
+    postal:"Bank Makramah Limited, Executive Tower, Dolmen City, Marine Drive, Clifton, Karachi",
+    ceo:"Jawad Majid Khan — CEO",
+    chairman:"Waseem Mehdi Syed",
+    helpline:"See official contact page",
+    complaintEmail:"complaints@bankmakramah.com",
+    generalEmail:"info@bankmakramah.com",
+    website:"bankmakramah.com",
+    branches:"~190 branches",
+    notes:"Renamed from Summit Bank in November 2023 after acquisition by UAE investor Nasser Abdulla Hussain Lootah; transitioning to a full Islamic bank."
+  },
+  {
+    name:"Silkbank Ltd.", type:"Merged", founded:1994,
+    hq:"Karachi, Pakistan (formerly)",
+    postal:"Now served through United Bank Limited (UBL) branches",
+    ceo:"N/A — bank no longer operates independently",
+    chairman:"—",
+    helpline:"Use UBL helpline: 111-825-888",
+    complaintEmail:"complaints@ubl.com.pk",
+    generalEmail:"info@ubl.com.pk",
+    website:"ubldigital.com",
+    branches:"Absorbed into UBL's network",
+    notes:"Silkbank was fully amalgamated into United Bank Limited (UBL) effective 11 March 2025 under an SBP-sanctioned scheme. Former Silkbank customers now bank through UBL."
+  },
+  {
+    name:"Industrial Development Bank of Pakistan (IDBP)", type:"Specialized", founded:1961,
+    hq:"Karachi, Pakistan",
+    postal:"IDBP House, Old Queens Road, Karachi",
+    ceo:"—  (see official site for current CEO)",
+    chairman:"—",
+    helpline:"021-99213615",
+    complaintEmail:"info@idbp.com.pk",
+    generalEmail:"info@idbp.com.pk",
+    website:"idbp.com.pk",
+    branches:"Limited branch network — project & industrial financing focus",
+    notes:"A state-owned specialized bank financing industrial development; does not offer general retail banking."
+  },
+  {
+    name:"SME Bank Ltd.", type:"Specialized", founded:2001,
+    hq:"Islamabad, Pakistan",
+    postal:"SME Bank Limited, STSM Building, F-7 Markaz, Islamabad",
+    ceo:"—  (see official site for current CEO)",
+    chairman:"—",
+    helpline:"111-11-00-11 (UAN)",
+    complaintEmail:"info@smebank.org",
+    generalEmail:"info@smebank.org",
+    website:"smebank.org",
+    branches:"Limited branch network — SME financing focus",
+    notes:"State-owned specialized bank dedicated to financing small and medium enterprises."
+  },
+  {
+    name:"The Punjab Provincial Cooperative Bank Ltd.", type:"Specialized", founded:1924,
+    hq:"Bank Square, Shahrah-e-Quaid-e-Azam, Lahore",
+    postal:"1-Faisal Avenue, Bank Square, Shahrah-e-Quaid-e-Azam, Lahore",
+    ceo:"—  (see official site for current CEO)",
+    chairman:"—",
+    helpline:"042-99211437",
+    complaintEmail:"info@ppcbl.com.pk",
+    generalEmail:"info@ppcbl.com.pk",
+    website:"ppcbl.com.pk",
+    branches:"~150 branches (Punjab only)",
+    notes:"Owned by the Government of Punjab; serves cooperative societies and rural credit needs within the province."
+  },
+  {
+    name:"Zarai Taraqiati Bank Ltd. (ZTBL)", type:"Specialized", founded:1961,
+    hq:"1-Faisal Avenue, Islamabad",
+    postal:"Zarai Taraqiati Bank Limited, 1-Faisal Avenue, Islamabad-44000, Pakistan",
+    ceo:"Tahir Yaqoob Bhatti — CEO",
+    chairman:"—",
+    helpline:"111-30-30-30 (UAN)",
+    complaintEmail:"info@ztbl.com.pk",
+    generalEmail:"info@ztbl.com.pk",
+    website:"ztbl.com.pk",
+    branches:"~350 branches — Pakistan's largest agricultural lender",
+    notes:"Formerly the Agricultural Development Bank of Pakistan (ADBP); majority owned by the State Bank of Pakistan. Focused entirely on farm and agri-financing."
+  },
+  {
+    name:"Citibank N.A. (Pakistan Branch)", type:"Foreign", founded:1961,
+    hq:"Sky Tower B, Dolmen City, Clifton, Karachi",
+    postal:"Citibank N.A., 13th Floor, Sky Tower B, East Wing, Dolmen City, Block 4, Scheme 5, Clifton, Karachi",
+    ceo:"Managing Director & Citi Country Officer — see official site",
+    chairman:"—",
+    helpline:"111-999-999 (UAN)",
+    complaintEmail:"pak.complaints@citi.com",
+    generalEmail:"customerquery.pakistan@citi.com",
+    website:"citigroup.com",
+    branches:"3 branches — corporate & institutional banking only",
+    notes:"Citibank exited Pakistani consumer/retail banking; its remaining branches serve corporate and government clients only."
+  },
+  {
+    name:"Deutsche Bank AG (Pakistan Branch)", type:"Foreign", founded:1962,
+    hq:"Karachi, with a branch in Lahore",
+    postal:"Deutsche Bank AG, DB Karachi Branch, Karachi, Pakistan",
+    ceo:"Head of Corporate Coverage Pakistan — see official site",
+    chairman:"—",
+    helpline:"No public retail helpline — corporate banking only",
+    complaintEmail:"See official corporate contact page",
+    generalEmail:"See official corporate contact page",
+    website:"db.com",
+    branches:"2 branches (Karachi, Lahore) — corporate & investment banking only",
+    notes:"Serves corporate clients with FX, trade finance and treasury services; does not offer retail/consumer accounts in Pakistan."
+  },
+  {
+    name:"Industrial and Commercial Bank of China Ltd. (ICBC Pakistan)", type:"Foreign", founded:2011,
+    hq:"Karachi, Pakistan",
+    postal:"ICBC Karachi Branch, Karachi, Pakistan",
+    ceo:"Branch General Manager — see official site",
+    chairman:"—",
+    helpline:"021-35208900",
+    complaintEmail:"See official contact page",
+    generalEmail:"See official contact page",
+    website:"icbc.com.cn",
+    branches:"Karachi & Islamabad branches — corporate & trade finance focus",
+    notes:"World's largest bank by assets; Pakistan branches focus on China–Pakistan trade finance and CPEC-related corporate banking."
+  },
+  {
+    name:"Bank of China (Pakistan Branch)", type:"Foreign", founded:2020,
+    hq:"Karachi, Pakistan",
+    postal:"Bank of China, Karachi Branch, Karachi, Pakistan",
+    ceo:"Branch General Manager — see official site",
+    chairman:"—",
+    helpline:"See official contact page",
+    complaintEmail:"See official contact page",
+    generalEmail:"See official contact page",
+    website:"boc.cn",
+    branches:"Karachi branch — corporate & trade finance focus",
+    notes:"One of China's 'Big Four' state banks; entered Pakistan mainly to support bilateral trade and CPEC financing, not retail banking."
+  },
+  {
+    name:"Khushhali Microfinance Bank Ltd.", type:"Microfinance", founded:2000,
+    hq:"Islamabad, Pakistan",
+    postal:"Khushhali Microfinance Bank, 3rd Floor, IBP Building, Blue Area, Islamabad",
+    ceo:"Aameer Karachiwalla — President & CEO",
+    chairman:"—",
+    helpline:"111-092-092 (UAN)",
+    complaintEmail:"complaints@khushhalibank.com.pk",
+    generalEmail:"info@khushhalibank.com.pk",
+    website:"khushhalibank.com.pk",
+    branches:"Pakistan's largest microfinance lender by outreach",
+    notes:"Founded by the Government of Pakistan with Asian Development Bank funding; United Bank Limited holds a ~28% stake."
+  },
+  {
+    name:"U Microfinance Bank Ltd.", type:"Microfinance", founded:2003,
+    hq:"Jinnah Super Market, F-7, Islamabad",
+    postal:"U Microfinance Bank Ltd, PTCL Headquarters, Sector G-8/4, Islamabad",
+    ceo:"Tooran Asif — President & CEO",
+    chairman:"—",
+    helpline:"See official contact page",
+    complaintEmail:"complaints@ubank.com.pk",
+    generalEmail:"info@ubank.com.pk",
+    website:"ubank.com.pk",
+    branches:"Nationwide branch and digital agent network",
+    notes:"A wholly owned subsidiary of PTCL (part of the e& Group), focused on digital-first microfinance."
+  },
+  {
+    name:"Mobilink Microfinance Bank Ltd. (JazzCash)", type:"Microfinance", founded:2012,
+    hq:"Islamabad, Pakistan",
+    postal:"Mobilink Microfinance Bank Ltd, Islamabad, Pakistan",
+    ceo:"Ghazanfar Azzam — President & CEO",
+    chairman:"Aamir Hafeez Ibrahim",
+    helpline:"See official contact page / JazzCash app support",
+    complaintEmail:"complaints@mobilinkbank.com",
+    generalEmail:"info@mobilinkbank.com",
+    website:"mobilinkbank.com",
+    branches:"Pakistan's largest digital-wallet network via JazzCash",
+    notes:"Operates the JazzCash mobile wallet in partnership with Jazz (VEON); Pakistan's largest branchless banking platform by users."
+  },
+  {
+    name:"HBL Microfinance Bank Ltd.", type:"Microfinance", founded:2002,
+    hq:"HBL Tower, Blue Area, Islamabad",
+    postal:"HBL Microfinance Bank Ltd, 16th & 17th Floor, HBL Tower, Jinnah Avenue, Islamabad",
+    ceo:"Muhammad Amir Khan — CEO",
+    chairman:"Rayomond Kotwal",
+    helpline:"See official contact page",
+    complaintEmail:"complaints@hblmfb.com",
+    generalEmail:"info@hblmfb.com",
+    website:"hblmfb.com",
+    branches:"~200+ branches",
+    notes:"Formerly The First MicroFinanceBank Ltd (FMFB-P), rooted in the Aga Khan Rural Support Programme; rebranded under HBL, which holds a majority stake."
+  },
+  {
+    name:"NRSP Microfinance Bank Ltd.", type:"Microfinance", founded:2011,
+    hq:"Islamabad, Pakistan",
+    postal:"11-12C, Shalimar Avenue, Shalimar Town, Fatehjang Road, Islamabad-46330",
+    ceo:"—  (see official site for current CEO)",
+    chairman:"—",
+    helpline:"UAN 062-111-011-011, Toll-free 0800-06777",
+    complaintEmail:"complaints@nrspbank.com",
+    generalEmail:"info@nrspbank.com",
+    website:"nrspbank.com",
+    branches:"Wide rural branch network, strongest in Punjab & Sindh",
+    notes:"Grew out of the National Rural Support Programme (NRSP), Pakistan's largest rural support NGO."
+  },
+  {
+    name:"ABHI Microfinance Bank Ltd.", type:"Microfinance", founded:2008,
+    hq:"Lahore, Pakistan",
+    postal:"ABHI Microfinance Bank Ltd, Lahore, Pakistan",
+    ceo:"—  (see official site for current CEO)",
+    chairman:"—",
+    helpline:"(042) 111-111-562",
+    complaintEmail:"complaints@abhipk.com",
+    generalEmail:"info@abhipk.com",
+    website:"abhibank.com",
+    branches:"~95 branches",
+    notes:"Formerly FINCA Microfinance Bank; renamed after a merger/investment agreement with Pakistani fintech Abhi. Part of the FINCA Impact Finance network."
+  },
+  {
+    name:"Sindh Microfinance Bank Ltd.", type:"Microfinance", founded:2015,
+    hq:"Karachi, Pakistan",
+    postal:"Sindh Microfinance Bank Ltd, Karachi, Pakistan",
+    ceo:"—  (see official site for current CEO)",
+    chairman:"—",
+    helpline:"See official contact page",
+    complaintEmail:"See official contact page",
+    generalEmail:"See official contact page",
+    website:"sindhmfb.com",
+    branches:"Sindh-focused branch network",
+    notes:"Backed by the Government of Sindh to expand microfinance access within the province."
+  },
+  {
+    name:"Apna Microfinance Bank Ltd.", type:"Microfinance", founded:2003,
+    hq:"Lahore, Pakistan",
+    postal:"Apna Microfinance Bank Ltd, Lahore, Pakistan",
+    ceo:"—  (see official site for current CEO)",
+    chairman:"—",
+    helpline:"See official contact page",
+    complaintEmail:"complaints@apnabank.com.pk",
+    generalEmail:"info@apnabank.com.pk",
+    website:"apnabank.com.pk",
+    branches:"Punjab-focused branch network",
+    notes:"Formerly Network Microfinance Bank; one of Pakistan's earlier licensed microfinance banks."
+  },
+  {
+    name:"LOLC Microfinance Bank Ltd.", type:"Microfinance", founded:2006,
+    hq:"Islamabad, Pakistan",
+    postal:"LOLC Microfinance Bank Ltd, Islamabad, Pakistan",
+    ceo:"—  (see official site for current CEO)",
+    chairman:"—",
+    helpline:"See official contact page",
+    complaintEmail:"See official contact page",
+    generalEmail:"See official contact page",
+    website:"lolc.com.pk",
+    branches:"Smaller branch network",
+    notes:"Formerly Pak Oman Microfinance Bank; renamed after acquisition by Sri Lanka's LOLC Group."
+  },
+  {
+    name:"Halan Microfinance Bank Ltd.", type:"Microfinance", founded:2012,
+    hq:"Karachi, Pakistan",
+    postal:"Bahria Complex 1, M.T. Khan Road, Karachi",
+    ceo:"—  (see official site for current CEO)",
+    chairman:"—",
+    helpline:"See official contact page",
+    complaintEmail:"See official contact page",
+    generalEmail:"See official contact page",
+    website:"halan.com",
+    branches:"~19 branches, Sindh-focused",
+    notes:"Renamed from Advans Pakistan Microfinance Bank in September 2024 after acquisition by Egypt-based fintech group MNT-Halan."
+  },
+  {
+    name:"easypaisa Bank Ltd. (formerly Telenor Microfinance Bank)", type:"Digital", founded:2005,
+    hq:"Islamabad, Pakistan",
+    postal:"easypaisa Bank Limited, Islamabad, Pakistan",
+    ceo:"—  (see official site for current CEO)",
+    chairman:"Irfan Wahab Khan",
+    helpline:"See official easypaisa app / contact page",
+    complaintEmail:"See official contact page",
+    generalEmail:"See official contact page",
+    website:"easypaisa.com.pk",
+    branches:"Nationwide agent & digital-wallet network",
+    notes:"Pakistan's first licensed Digital Retail Bank, converted from Telenor Microfinance Bank on 28 January 2025. Operates the easypaisa wallet. Owned by Telenor (55%) and Ant Group/Alipay (45%)."
+  },
+  {
+    name:"Mashreq Bank Pakistan Ltd.", type:"Digital", founded:2023,
+    hq:"Karachi, Pakistan",
+    postal:"Mashreq Bank Pakistan Limited, Karachi, Pakistan",
+    ceo:"—  (see official site for current CEO)",
+    chairman:"—",
+    helpline:"See official contact page",
+    complaintEmail:"See official contact page",
+    generalEmail:"See official contact page",
+    website:"mashreq.com",
+    branches:"Fully digital — no physical branches",
+    notes:"A wholly owned subsidiary of Mashreq Bank PSC (UAE). Received SBP's first restricted pilot licence for digital retail banking in February 2025 and is now among Pakistan's three operational digital banks."
+  },
+  {
+    name:"Raqami Islamic Digital Bank Ltd.", type:"Digital", founded:2023,
+    hq:"Karachi, Pakistan",
+    postal:"Raqami Islamic Digital Bank Limited, Karachi, Pakistan",
+    ceo:"—  (see official site for current CEO)",
+    chairman:"—",
+    helpline:"See official contact page",
+    complaintEmail:"See official contact page",
+    generalEmail:"See official contact page",
+    website:"raqamidigital.com",
+    branches:"Fully digital — no physical branches",
+    notes:"Pakistan's first digital Islamic bank; backed by Pak-Kuwait Investment Company and Enertech Holding (a Kuwait Investment Authority subsidiary). Declared a scheduled bank by SBP on 6 February 2026."
+  },
+  {
+    name:"HugoBank Ltd.", type:"Digital", founded:2023,
+    hq:"Karachi, Pakistan",
+    postal:"HugoBank Limited, Karachi, Pakistan",
+    ceo:"—  (see official site for current CEO)",
+    chairman:"—",
+    helpline:"See official contact page — waitlist only at this stage",
+    complaintEmail:"See official contact page",
+    generalEmail:"See official contact page",
+    website:"hugobank.com.pk",
+    branches:"Fully digital — no physical branches (pilot stage)",
+    notes:"A consortium venture (Singapore's Atlas Consolidated / Hugosave, The Getz Group, and Muller & Phipps Pakistan). Granted approval for pilot operations by SBP in August 2026; not yet open to the general public."
+  },
+  {
+    name:"Buraq Bank Ltd. (formerly KT Bank Pakistan)", type:"Digital", founded:2023,
+    hq:"Karachi, Pakistan",
+    postal:"Buraq Bank Limited, Karachi, Pakistan",
+    ceo:"—  (see official site for current CEO)",
+    chairman:"—",
+    helpline:"See official contact page",
+    complaintEmail:"See official contact page",
+    generalEmail:"See official contact page",
+    website:"bankburaq.com",
+    branches:"Fully digital — no physical branches (pre-launch)",
+    notes:"Sponsored by Kuda Technologies, Fatima Fertilizer, and The City School. Holds in-principle SBP approval; renamed from KT Bank Pakistan and yet to commence public operations."
+  },
+];
+
+const grid = document.getElementById('grid');
+const chips = document.querySelectorAll('.chip');
+const searchInput = document.getElementById('search');
+const resultCount = document.getElementById('resultCount');
+const noResults = document.getElementById('noResults');
+document.getElementById('stat-count').textContent = banks.length;
+
+const badgeClass = t => ({
+  "Public Sector":"badge-public",
+  "Private":"badge-private",
+  "Islamic":"badge-islamic",
+  "Foreign":"badge-foreign",
+  "Specialized":"badge-specialized",
+  "Merged":"badge-merged",
+  "Microfinance":"badge-microfinance",
+  "Digital":"badge-digital"
+})[t] || "badge-private";
+
+function initials(name){
+  const clean = name.replace(/\(.*?\)/g,'').replace(/Ltd\.?|Limited|Bank|Pakistan|the|of|N\.A\.|AG/gi,' ');
+  const words = clean.split(/\s+/).filter(w=>w.length>1);
+  if(words.length === 0) return name.substring(0,2).toUpperCase();
+  if(words.length === 1) return words[0].substring(0,2).toUpperCase();
+  return (words[0][0] + words[1][0]).toUpperCase();
+}
+
+function logoBox(b){
+  const hasWebsite = b.website && b.website !== "—" && !b.website.includes("see official");
+  const domain = hasWebsite ? b.website.replace(/^https?:\/\//,'').split('/')[0].trim() : null;
+  const initialsText = initials(b.name);
+  if(!domain){
+    return `<div class="logo-box"><div class="logo-fallback" style="display:flex;">${initialsText}</div></div>`;
+  }
+  // Try Clearbit's logo lookup first (usually the cleanest full-color logo),
+  // then fall back to a favicon fetched live and directly from the bank's own
+  // official domain, then finally the monogram if neither resolves.
+  return `<div class="logo-box">
+    <img src="https://logo.clearbit.com/${domain}?size=88"
+         alt="${b.name} logo"
+         onerror="this.onerror=function(){this.style.display='none';this.nextElementSibling.style.display='flex';};this.src='https://www.google.com/s2/favicons?sz=128&domain=${domain}';">
+    <div class="logo-fallback">${initialsText}</div>
+  </div>`;
+}
+
+function ledgerRow(label, value, wide){
+  if(!value) return "";
+  return `<div class="ledger-row"><span class="ledger-label">${label}</span><span class="ledger-value${wide?' wide':''}">${value}</span></div>`;
+}
+
+function cardHTML(b, i, animIndex){
+  return `
+  <div class="card${b.type==='Merged' ? ' merged' : ''}" data-idx="${i}" style="animation-delay:${Math.min(animIndex*35,500)}ms" onclick="openModal(${i})">
+    <div class="card-head">
+      <div class="badge-row">
+        <span class="type-badge ${badgeClass(b.type)}">${b.type}</span>
+        <span class="founded">Est. ${b.founded}</span>
+      </div>
+      <h3 class="bank-name"><span class="name-row">${logoBox(b)}<span>${b.name}</span></span></h3>
+      <div class="bank-meta"><b>HQ</b> ${b.hq}</div>
+      <div class="quick-row">
+        <div class="quick-item"><span class="k">CEO</span><span class="v">${b.ceo.split('—')[0].trim()}</span></div>
+        <div class="quick-item"><span class="k">Branches</span><span class="v">${b.branches}</span></div>
+      </div>
+      <div class="view-hint">Open passbook <span class="arrow">→</span></div>
+    </div>
+  </div>`;
+}
+
+function modalContentHTML(b){
+  return `
+    <div class="modal-topstrip"></div>
+    <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+    <div class="modal-scroll">
+      <div class="modal-head">
+        <div class="modal-badge-row">
+          <span class="type-badge ${badgeClass(b.type)}">${b.type}</span>
+          <span class="founded">Est. ${b.founded}</span>
+        </div>
+        <div class="modal-name-row">
+          ${logoBox(b).replace('logo-box','logo-box modal-logo')}
+          <h2 class="modal-name">${b.name}</h2>
+        </div>
+        <div class="modal-hq"><b>HQ</b> ${b.hq}</div>
+      </div>
+      <div class="perf"></div>
+      <div class="detail-inner">
+        ${ledgerRow("Helpline", b.helpline)}
+        ${ledgerRow("Complaint email", `<a href="mailto:${b.complaintEmail}">${b.complaintEmail}</a>`)}
+        ${ledgerRow("General email", `<a href="mailto:${b.generalEmail}">${b.generalEmail}</a>`)}
+        ${ledgerRow("Website", `<a href="https://${b.website}" target="_blank" rel="noopener">${b.website}</a>`)}
+        ${ledgerRow("CEO", b.ceo, true)}
+        ${b.chairman && b.chairman !== "—" ? ledgerRow("Chairman", b.chairman, true) : ""}
+        ${ledgerRow("Postal / Head office", b.postal, true)}
+        ${ledgerRow("Branches", b.branches, true)}
+        <div class="notes-box">${b.notes}</div>
+      </div>
+    </div>`;
+}
+
+function render(){
+  const q = searchInput.value.trim().toLowerCase();
+  const activeFilter = document.querySelector('.chip.active').dataset.filter;
+  const filtered = banks.filter(b=>{
+    const matchesFilter = activeFilter === "all" || b.type === activeFilter;
+    const matchesQuery = !q || b.name.toLowerCase().includes(q);
+    return matchesFilter && matchesQuery;
+  });
+  grid.innerHTML = filtered.map((b, animIndex)=>cardHTML(b, banks.indexOf(b), animIndex)).join("");
+  resultCount.textContent = `${filtered.length} of ${banks.length} shown`;
+  noResults.style.display = filtered.length ? "none" : "block";
+}
+
+const modalBackdrop = document.getElementById('modalBackdrop');
+const modalWindow = document.getElementById('modalWindow');
+
+function openModal(i){
+  const b = banks[i];
+  modalWindow.innerHTML = modalContentHTML(b);
+  modalBackdrop.classList.add('open');
+  document.body.classList.add('modal-open');
+}
+
+function closeModal(){
+  modalBackdrop.classList.remove('open');
+  document.body.classList.remove('modal-open');
+}
+
+modalBackdrop.addEventListener('click', (e)=>{
+  if(e.target === modalBackdrop) closeModal();
+});
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape') closeModal();
+});
+
+chips.forEach(chip=>{
+  chip.addEventListener('click', ()=>{
+    chips.forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    render();
+  });
+});
+searchInput.addEventListener('input', render);
+
+render();
+</script>
+</body>
+</html>

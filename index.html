@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
+<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-X9Y70DJJ0Y"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-X9Y70DJJ0Y');
 </script>
 <meta charset="UTF-8">
@@ -60,7 +59,6 @@
   }
   a{color:inherit;}
 
-</script>
   /* ---------- Header ---------- */
   header{
     background:linear-gradient(135deg, #134E4A 0%, #0F766E 55%, #0D9488 100%);
@@ -168,53 +166,123 @@
     border-radius:50%;
   }
 
-  /* ---------- Filter bar ---------- */
-  .filter-bar{
-    max-width:1080px;
-    margin:-40px auto 0;
-    padding:0 24px;
+  /* ---------- Front page: category tiles ---------- */
+  @keyframes viewIn{
+    from{opacity:0; transform:translateY(10px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  main{max-width:1080px;margin:0 auto;padding:0 24px 20px;}
+  .category-view{
+    margin-top:-40px;
     position:relative;
     z-index:3;
+    animation:viewIn .4s cubic-bezier(.16,.8,.3,1) both;
   }
-  .chip-row{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    background:var(--paper-card);
-    border:1px solid var(--line);
-    border-radius:14px;
-    padding:14px;
-    box-shadow:0 10px 26px -18px rgba(0,0,0,.3);
-  }
-  .chip{
+  .category-intro{
     font-family:'IBM Plex Mono',monospace;
     font-size:12.5px;
-    padding:8px 14px;
-    border-radius:20px;
-    border:1px solid var(--line);
-    background:#fff;
-    cursor:pointer;
-    color:var(--ink-soft);
-    transition:.15s;
-    white-space:nowrap;
-  }
-  .chip:hover{border-color:var(--brass);}
-  .chip.active{
-    background:var(--green);
-    border-color:var(--green);
     color:#fff;
+    background:var(--green);
+    display:inline-block;
+    padding:7px 16px;
+    border-radius:20px;
+    margin:0 0 18px;
+    box-shadow:0 10px 24px -12px rgba(15,118,110,.5);
+  }
+  .tile-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+    gap:16px;
+  }
+  .category-tile{
+    background:var(--paper-card);
+    border:1px solid var(--line);
+    border-left:5px solid var(--tile-color,var(--green));
+    border-radius:12px;
+    padding:24px 22px;
+    cursor:pointer;
+    position:relative;
+    overflow:hidden;
+    opacity:0;
+    animation:cardIn .55s cubic-bezier(.16,.8,.3,1) both;
+    transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+    box-shadow:0 1px 0 var(--line), 0 8px 20px -16px rgba(0,0,0,.35);
+  }
+  .category-tile:hover{
+    transform:translateY(-5px);
+    background:var(--tile-color,var(--green));
+    box-shadow:0 20px 34px -18px rgba(15,118,110,.4);
+  }
+  .category-tile:hover .tile-name,
+  .category-tile:hover .tile-count{color:#fff;}
+  .category-tile:hover .tile-arrow{opacity:1; color:#fff; transform:translateX(4px);}
+  .tile-name{
+    font-family:'Roboto',sans-serif;
+    font-weight:700;
+    font-size:18px;
+    margin:0 0 6px;
+    transition:color .2s ease;
+  }
+  .tile-count{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+    transition:color .2s ease;
+  }
+  .tile-arrow{
+    position:absolute;
+    right:20px; bottom:18px;
+    font-family:'IBM Plex Mono',monospace;
+    color:var(--tile-color,var(--green));
+    opacity:.5;
+    transition:transform .25s ease, opacity .25s ease, color .2s ease;
+  }
+
+  /* ---------- Results view ---------- */
+  .results-view{
+    animation:viewIn .4s cubic-bezier(.16,.8,.3,1) both;
+    padding-top:28px;
+  }
+  .hidden{display:none !important;}
+  .back-btn{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    background:#fff;
+    border:1px solid var(--line);
+    color:var(--green);
+    padding:8px 16px;
+    border-radius:20px;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:18px;
+    transition:.2s;
+  }
+  .back-btn:hover{background:var(--green); color:#fff; border-color:var(--green);}
+  .back-arrow{transition:transform .2s ease;}
+  .back-btn:hover .back-arrow{transform:translateX(-3px);}
+  .results-header{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+  }
+  .results-header h2{
+    font-family:'Roboto',sans-serif;
+    font-weight:700;
+    font-size:22px;
+    margin:0;
   }
   .result-count{
     font-family:'IBM Plex Mono',monospace;
     font-size:12px;
     color:var(--ink-soft);
-    margin-left:auto;
-    align-self:center;
-    padding-left:8px;
   }
 
   /* ---------- Grid ---------- */
-  main{max-width:1080px;margin:0 auto;padding:40px 24px 20px;}
   .grid{
     display:grid;
     grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
@@ -531,8 +599,10 @@
     border:1px solid var(--line);
     background:var(--paper-card);
     border-radius:12px;
-    padding:26px 28px;
+    padding:20px 28px;
+    transition:padding .3s ease;
   }
+  .disclaimer-box.open{padding:26px 28px;}
   .disclaimer-heading{
     font-family:'Roboto',sans-serif;
     font-weight:800;
@@ -540,10 +610,13 @@
     letter-spacing:.1em;
     text-transform:uppercase;
     color:var(--green);
-    margin:0 0 14px;
+    margin:0;
     display:flex;
     align-items:center;
     gap:10px;
+    cursor:pointer;
+    user-select:none;
+    -webkit-tap-highlight-color:transparent;
   }
   .disclaimer-heading::before{
     content:"";
@@ -551,6 +624,24 @@
     background:var(--green);
     display:inline-block;
   }
+  .disclaimer-chevron{
+    margin-left:auto;
+    width:20px;height:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:transform .3s cubic-bezier(.16,.8,.3,1);
+    color:var(--green);
+    flex-shrink:0;
+  }
+  .disclaimer-box.open .disclaimer-chevron{transform:rotate(180deg);}
+  .disclaimer-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .4s cubic-bezier(.16,.8,.3,1);
+  }
+  .disclaimer-box.open .disclaimer-body{max-height:900px;}
+  .disclaimer-body-inner{padding-top:16px;}
   .disclaimer-box p{
     font-size:12.5px;
     line-height:1.75;
@@ -604,24 +695,23 @@
   </div>
 </header>
 
-<div class="filter-bar">
-  <div class="chip-row" id="chips">
-    <button class="chip active" data-filter="all">All banks</button>
-    <button class="chip" data-filter="Public Sector">Public sector</button>
-    <button class="chip" data-filter="Private">Private</button>
-    <button class="chip" data-filter="Islamic">Islamic</button>
-    <button class="chip" data-filter="Foreign">Foreign</button>
-    <button class="chip" data-filter="Specialized">Specialized / DFI</button>
-    <button class="chip" data-filter="Microfinance">Microfinance</button>
-    <button class="chip" data-filter="Digital">Digital banks</button>
-    <button class="chip" data-filter="Merged">Merged / inactive</button>
-    <span class="result-count" id="resultCount"></span>
-  </div>
-</div>
-
 <main>
-  <div class="grid" id="grid"></div>
-  <div class="no-results" id="noResults" style="display:none;">No bank matches that search. Try a different name.</div>
+  <div class="category-view" id="categoryView">
+    <p class="category-intro">Pick a category to open its bank details.</p>
+    <div class="tile-grid" id="tileGrid"></div>
+  </div>
+
+  <div class="results-view hidden" id="resultsView">
+    <button class="back-btn" onclick="backToCategories()">
+      <span class="back-arrow">←</span> Back to categories
+    </button>
+    <div class="results-header">
+      <h2 id="resultsTitle">All banks</h2>
+      <span class="result-count" id="resultCount"></span>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="no-results" id="noResults" style="display:none;">No bank matches that search. Try a different name.</div>
+  </div>
 </main>
 
 <div class="modal-backdrop" id="modalBackdrop">
@@ -631,17 +721,20 @@
 <div class="ombuds">
   <div class="ombuds-card">
     <div>
-      <h2>Bank didn't fix it? Escalate.</h2>
-      <p>Every bank must acknowledge a complaint and respond within its own timeline — usually 5 to 15 working days. If you're still unsatisfied, Pakistani law gives you two free, independent escalation routes before you'd ever need a lawyer.</p>
+      <h2>Not satisfied with resolution? Escalate.</h2>
+      <p>Every bank must acknowledge and respond to a complaint. If you're not satisfied, Pakistani law gives you two free, independent escalation routes.</p>
       <ul class="ombuds-steps">
         <li data-n="01">Lodge the complaint directly with your bank first (in writing, or via app/branch) — this step is required before either route below will accept your case.</li>
-        <li data-n="02">Still unresolved? File with the <b>State Bank of Pakistan's Sunwai portal</b> for general banking and digital-account issues.</li>
-        <li data-n="03">For disputes the bank refuses to resolve fairly, approach the <b>Banking Mohtasib Pakistan</b> — an independent ombudsman that mediates free of charge.</li>
+        <li data-n="02">Not satisfied? File with the <b>State Bank of Pakistan's Sunwai portal</b> — a free, round-the-clock complaint service (web and mobile app, in English or Urdu) covering banks, microfinance banks, and DFIs, including Roshan Digital Accounts. Every complaint gets a tracked ID with SMS/email updates.</li>
+        <li data-n="03">You may approach the <b>Banking Mohtasib Pakistan</b> if not satisfied with the bank's provided resolution — an independent ombudsman that mediates free of charge.</li>
       </ul>
     </div>
     <div class="ombuds-contact">
       <div class="t">SBP Sunwai Portal</div>
-      sunwai.sbp.org.pk<br><br>
+      sunwai.sbp.org.pk<br>
+      Helpline: 021-111-727-273<br>
+      Email: complaints.portal@sbp.org.pk<br>
+      Also on Google Play &amp; App Store<br><br>
       <div class="t">Banking Mohtasib Pakistan</div>
       5th Floor, Shaheen Complex,<br>
       M.R. Kiyani Road, Karachi<br>
@@ -654,14 +747,24 @@
 </div>
 
 <div class="disclaimer">
-  <div class="disclaimer-box">
-    <h2 class="disclaimer-heading">Disclaimer</h2>
-    <p><b>Independent, unofficial resource.</b> This directory is an independently compiled reference tool. It is not published, endorsed, sponsored by, or affiliated with the State Bank of Pakistan, any bank, microfinance bank, or digital bank listed here, or any of their parent companies, subsidiaries, or affiliates. All bank names, logos, trademarks, and emblems shown remain the property of their respective owners and are used solely to identify the institution being described, not to imply any endorsement, partnership, or official relationship.</p>
-    <p><b>No warranty of accuracy.</b> Contact numbers, email addresses, postal addresses, executive names, branch counts, and licensing status are compiled from publicly available sources, including official bank websites, regulatory filings, and public news reporting, and were believed accurate as of the last update shown below. Banks change phone lines, staff, addresses, and ownership without notice, and errors, omissions, or delays in updating this page may occur. Nothing on this page is guaranteed to be current, complete, or error-free, and no representation or warranty of any kind, express or implied, is made regarding its accuracy.</p>
-    <p><b>Not financial, legal, or professional advice.</b> Nothing on this page constitutes financial, legal, tax, or professional advice, or a recommendation to use, avoid, or evaluate any particular bank. Any decision to open an account, file a complaint, or transact with any institution listed here is made entirely at the user's own discretion.</p>
-    <p><b>Verify independently before relying on this information.</b> Users are solely responsible for independently verifying any detail on this page — particularly helpline numbers, complaint emails, and executive names — directly against the relevant bank's official website or customer service channel before relying on it, especially for time-sensitive, financial, or complaint-related matters.</p>
-    <p><b>Limitation of liability.</b> To the fullest extent permitted by applicable law, the creator(s) and publisher(s) of this page disclaim all liability for any direct, indirect, incidental, or consequential loss, damage, cost, or expense arising from or in connection with any use of, reliance on, or inability to access this page or the information it contains. This page is provided "as is" and "as available," without warranty of any kind.</p>
-    <p>Notes updated: August 2026.</p>
+  <div class="disclaimer-box" id="disclaimerBox">
+    <h2 class="disclaimer-heading" onclick="toggleDisclaimer()">
+      Disclaimer
+      <span class="disclaimer-chevron">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </span>
+    </h2>
+    <div class="disclaimer-body" id="disclaimerBody">
+      <div class="disclaimer-body-inner">
+        <p><b>Independent, unofficial resource.</b> This directory is an independently compiled reference tool. It is not published, endorsed, sponsored by, or affiliated with the State Bank of Pakistan, any bank, microfinance bank, or digital bank listed here, or any of their parent companies, subsidiaries, or affiliates. All bank names, logos, trademarks, and emblems shown remain the property of their respective owners and are used solely to identify the institution being described, not to imply any endorsement, partnership, or official relationship.</p>
+        <p><b>No warranty of accuracy.</b> Contact numbers, email addresses, postal addresses, executive names, branch counts, and licensing status are compiled from publicly available sources, including official bank websites, regulatory filings, and public news reporting, and were believed accurate as of the last update shown below. Banks change phone lines, staff, addresses, and ownership without notice, and errors, omissions, or delays in updating this page may occur. Nothing on this page is guaranteed to be current, complete, or error-free, and no representation or warranty of any kind, express or implied, is made regarding its accuracy.</p>
+        <p><b>Not financial, legal, or professional advice.</b> Nothing on this page constitutes financial, legal, tax, or professional advice, or a recommendation to use, avoid, or evaluate any particular bank. Any decision to open an account, file a complaint, or transact with any institution listed here is made entirely at the user's own discretion.</p>
+        <p><b>Verify independently before relying on this information.</b> Users are solely responsible for independently verifying any detail on this page — particularly helpline numbers, complaint emails, and executive names — directly against the relevant bank's official website or customer service channel before relying on it, especially for time-sensitive, financial, or complaint-related matters.</p>
+        <p><b>Limitation of liability.</b> To the fullest extent permitted by applicable law, the creator(s) and publisher(s) of this page disclaim all liability for any direct, indirect, incidental, or consequential loss, damage, cost, or expense arising from or in connection with any use of, reliance on, or inability to access this page or the information it contains. This page is provided "as is" and "as available," without warranty of any kind.</p>
+        <p><b>Analytics.</b> This page uses Google Analytics, which sets cookies and collects anonymized usage data (such as pages viewed and general location) to help understand how the page is used. No personal account or banking information is collected by this page. You can disable this via your browser's cookie or privacy settings.</p>
+        <p>Notes updated: August 2026.</p>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1298,11 +1401,28 @@ const banks = [
 ];
 
 const grid = document.getElementById('grid');
-const chips = document.querySelectorAll('.chip');
 const searchInput = document.getElementById('search');
 const resultCount = document.getElementById('resultCount');
 const noResults = document.getElementById('noResults');
+const categoryView = document.getElementById('categoryView');
+const resultsView = document.getElementById('resultsView');
+const tileGrid = document.getElementById('tileGrid');
+const resultsTitle = document.getElementById('resultsTitle');
 document.getElementById('stat-count').textContent = banks.length;
+
+const categoryList = [
+  {type:"all", label:"All banks", colorVar:"--green"},
+  {type:"Public Sector", label:"Public Sector", colorVar:"--public"},
+  {type:"Private", label:"Private", colorVar:"--private"},
+  {type:"Islamic", label:"Islamic", colorVar:"--islamic"},
+  {type:"Foreign", label:"Foreign", colorVar:"--foreign"},
+  {type:"Specialized", label:"Specialized / DFI", colorVar:"--specialized"},
+  {type:"Microfinance", label:"Microfinance", colorVar:"--micro"},
+  {type:"Digital", label:"Digital banks", colorVar:"--digital"},
+  {type:"Merged", label:"Merged / inactive", colorVar:"--merged"},
+];
+
+let currentType = null;
 
 const badgeClass = t => ({
   "Public Sector":"badge-public",
@@ -1396,17 +1516,55 @@ function modalContentHTML(b){
     </div>`;
 }
 
-function render(){
+function renderTiles(){
+  tileGrid.innerHTML = categoryList.map((c, idx)=>{
+    const count = c.type === "all" ? banks.length : banks.filter(b=>b.type===c.type).length;
+    return `
+    <div class="category-tile" style="--tile-color:var(${c.colorVar}); animation-delay:${idx*55}ms" onclick="selectCategory('${c.type}')">
+      <div class="tile-name">${c.label}</div>
+      <div class="tile-count">${count} bank${count!==1?'s':''}</div>
+      <div class="tile-arrow">→</div>
+    </div>`;
+  }).join("");
+}
+
+function renderResults(){
   const q = searchInput.value.trim().toLowerCase();
-  const activeFilter = document.querySelector('.chip.active').dataset.filter;
   const filtered = banks.filter(b=>{
-    const matchesFilter = activeFilter === "all" || b.type === activeFilter;
+    const matchesType = currentType === "all" || b.type === currentType;
     const matchesQuery = !q || b.name.toLowerCase().includes(q);
-    return matchesFilter && matchesQuery;
+    return matchesType && matchesQuery;
   });
   grid.innerHTML = filtered.map((b, animIndex)=>cardHTML(b, banks.indexOf(b), animIndex)).join("");
   resultCount.textContent = `${filtered.length} of ${banks.length} shown`;
   noResults.style.display = filtered.length ? "none" : "block";
+  const cat = categoryList.find(c=>c.type===currentType);
+  resultsTitle.textContent = q ? `Search results` : (cat ? cat.label : "Banks");
+}
+
+function selectCategory(type){
+  currentType = type;
+  searchInput.value = "";
+  revealResults();
+}
+
+function revealResults(){
+  renderResults();
+  categoryView.classList.add('hidden');
+  resultsView.classList.remove('hidden');
+  resultsView.style.animation = 'none';
+  void resultsView.offsetWidth;
+  resultsView.style.animation = '';
+}
+
+function backToCategories(){
+  currentType = null;
+  searchInput.value = "";
+  resultsView.classList.add('hidden');
+  categoryView.classList.remove('hidden');
+  categoryView.style.animation = 'none';
+  void categoryView.offsetWidth;
+  categoryView.style.animation = '';
 }
 
 const modalBackdrop = document.getElementById('modalBackdrop');
@@ -1424,6 +1582,10 @@ function closeModal(){
   document.body.classList.remove('modal-open');
 }
 
+function toggleDisclaimer(){
+  document.getElementById('disclaimerBox').classList.toggle('open');
+}
+
 modalBackdrop.addEventListener('click', (e)=>{
   if(e.target === modalBackdrop) closeModal();
 });
@@ -1431,16 +1593,19 @@ document.addEventListener('keydown', (e)=>{
   if(e.key === 'Escape') closeModal();
 });
 
-chips.forEach(chip=>{
-  chip.addEventListener('click', ()=>{
-    chips.forEach(c=>c.classList.remove('active'));
-    chip.classList.add('active');
-    render();
-  });
+searchInput.addEventListener('input', ()=>{
+  const q = searchInput.value.trim();
+  if(currentType === null){
+    if(q){
+      currentType = "all";
+      revealResults();
+    }
+  } else {
+    renderResults();
+  }
 });
-searchInput.addEventListener('input', render);
 
-render();
+renderTiles();
 </script>
 </body>
 </html>
